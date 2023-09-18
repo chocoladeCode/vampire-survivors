@@ -8,24 +8,36 @@ class SpriteKind:
     coin = SpriteKind.create()
     SuperShield = SpriteKind.create()
 
-def on_on_overlap(sprite, otherSprite):
+def on_on_overlap(sprite2, otherSprite2):
+    info.change_countdown_by(-10)
+    sprites.destroy(otherSprite2)
+sprites.on_overlap(SpriteKind.Immune, SpriteKind.SuperEnemy, on_on_overlap)
+
+def on_on_overlap2(sprite, otherSprite):
     global Truefalse, TextCheck
     sprites.destroy(otherSprite)
     Truefalse = 1
     TextCheck = 1
-sprites.on_overlap(SpriteKind.player, SpriteKind.trough, on_on_overlap)
+sprites.on_overlap(SpriteKind.player, SpriteKind.trough, on_on_overlap2)
 
-def on_on_overlap2(sprite2, otherSprite2):
-    info.change_countdown_by(-10)
-    sprites.destroy(otherSprite2)
-sprites.on_overlap(SpriteKind.Immune, SpriteKind.SuperEnemy, on_on_overlap2)
+def on_on_overlap3(sprite6, otherSprite6):
+    global coinsnumber
+    sprites.destroy(otherSprite6, effects.confetti, 500)
+    coinsnumber += 1
+sprites.on_overlap(SpriteKind.player, SpriteKind.coin, on_on_overlap3)
 
-def on_on_overlap3(sprite5, otherSprite5):
+def on_on_overlap4(sprite5, otherSprite5):
     info.change_score_by(1)
     sprites.destroy(otherSprite5)
     if info.score() < 40:
         sprites.destroy(sprite5)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap3)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.enemy, on_on_overlap4)
+
+def on_on_overlap5(sprite9, otherSprite9):
+    global coinsnumber
+    sprites.destroy(otherSprite9, effects.confetti, 500)
+    coinsnumber += 1
+sprites.on_overlap(SpriteKind.Immune, SpriteKind.coin, on_on_overlap5)
 
 def Key():
     global KeyDungeon
@@ -52,9 +64,10 @@ def Key():
         tiles.place_on_tile(KeyDungeon, value)
         tiles.set_tile_at(value, sprites.dungeon.dark_ground_center)
 
-def on_on_overlap4(sprite22, otherSprite22):
-    sprites.destroy(otherSprite22, effects.disintegrate, 500)
-sprites.on_overlap(SpriteKind.SuperShield, SpriteKind.enemy, on_on_overlap4)
+def on_on_overlap6(sprite3, otherSprite3):
+    sprites.destroy(otherSprite3)
+    info.change_score_by(1)
+sprites.on_overlap(SpriteKind.projectile, SpriteKind.SuperEnemy, on_on_overlap6)
 
 def on_on_score():
     game.show_long_text("Level hard", DialogLayout.CENTER)
@@ -65,6 +78,16 @@ def on_on_score2():
     game.show_long_text("Level medium", DialogLayout.CENTER)
     Character.set_position(450, 450)
 info.on_score(30, on_on_score2)
+
+def on_on_overlap7(sprite22, otherSprite22):
+    sprites.destroy(otherSprite22, effects.disintegrate, 500)
+sprites.on_overlap(SpriteKind.SuperShield, SpriteKind.enemy, on_on_overlap7)
+
+def on_on_overlap8(sprite24, otherSprite24):
+    sprites.destroy(otherSprite24, effects.disintegrate, 500)
+sprites.on_overlap(SpriteKind.SuperShield,
+    SpriteKind.SuperEnemy,
+    on_on_overlap8)
 
 def on_countdown_end():
     global Character, SuperCheck
@@ -99,43 +122,28 @@ def on_countdown_end():
     """), 200, True)
 info.on_countdown_end(on_countdown_end)
 
-def on_on_overlap5(sprite4, otherSprite4):
+def on_on_overlap9(sprite4, otherSprite4):
     sprites.destroy(otherSprite4)
     for value2 in tiles.get_tiles_by_type(sprites.dungeon.door_locked_north):
         tiles.set_wall_at(value2, False)
-sprites.on_overlap(SpriteKind.player, SpriteKind.DungeonKey, on_on_overlap5)
+sprites.on_overlap(SpriteKind.player, SpriteKind.DungeonKey, on_on_overlap9)
 
-def on_on_overlap6(sprite3, otherSprite3):
-    sprites.destroy(otherSprite3)
-    info.change_score_by(1)
-sprites.on_overlap(SpriteKind.projectile, SpriteKind.SuperEnemy, on_on_overlap6)
-
-def on_on_overlap7(sprite23, otherSprite23):
-    sprites.destroy(otherSprite23)
-sprites.on_overlap(SpriteKind.Immune, SpriteKind.enemy, on_on_overlap7)
-
-def on_on_overlap8(sprite6, otherSprite6):
-    global coinsnumber
-    sprites.destroy(otherSprite6, effects.confetti, 500)
-    coinsnumber += 1
-sprites.on_overlap(SpriteKind.player, SpriteKind.coin, on_on_overlap8)
-
-def on_on_overlap9(sprite7, otherSprite7):
-    info.change_life_by(-1)
-    pause(500)
-sprites.on_overlap(SpriteKind.player, SpriteKind.SuperEnemy, on_on_overlap9)
-
-def on_on_overlap10(sprite24, otherSprite24):
-    sprites.destroy(otherSprite24, effects.disintegrate, 500)
-sprites.on_overlap(SpriteKind.SuperShield,
-    SpriteKind.SuperEnemy,
-    on_on_overlap10)
-
-def on_on_overlap11(sprite8, otherSprite8):
+def on_on_overlap10(sprite8, otherSprite8):
     global ScatterCheck
     sprites.destroy(otherSprite8)
     ScatterCheck = 1
-sprites.on_overlap(SpriteKind.player, SpriteKind.Scatterani, on_on_overlap11)
+sprites.on_overlap(SpriteKind.player, SpriteKind.Scatterani, on_on_overlap10)
+
+def on_on_overlap11(sprite7, otherSprite7):
+    info.change_life_by(-1)
+    pause(500)
+sprites.on_overlap(SpriteKind.player, SpriteKind.SuperEnemy, on_on_overlap11)
+
+def on_on_overlap12(sprite32, otherSprite32):
+    info.change_life_by(-1)
+    music.play(music.string_playable("C5 C5 - - - - - - ", 1000),
+        music.PlaybackMode.UNTIL_DONE)
+sprites.on_overlap(SpriteKind.enemy, SpriteKind.player, on_on_overlap12)
 
 def on_on_score3():
     game.splash("Whip Unlocked")
@@ -146,22 +154,14 @@ def on_on_score4():
     Character.set_position(450, 450)
 info.on_score(200, on_on_score4)
 
-def on_on_overlap12(sprite32, otherSprite32):
-    info.change_life_by(-1)
-    music.play(music.string_playable("C5 C5 - - - - - - ", 1000),
-        music.PlaybackMode.UNTIL_DONE)
-sprites.on_overlap(SpriteKind.enemy, SpriteKind.player, on_on_overlap12)
+def on_on_overlap13(sprite23, otherSprite23):
+    sprites.destroy(otherSprite23)
+sprites.on_overlap(SpriteKind.Immune, SpriteKind.enemy, on_on_overlap13)
 
 def on_on_score5():
     game.splash("Bullet Phase Unlocked")
     pause(5000)
 info.on_score(40, on_on_score5)
-
-def on_on_overlap13(sprite9, otherSprite9):
-    global coinsnumber
-    sprites.destroy(otherSprite9, effects.confetti, 500)
-    coinsnumber += 1
-sprites.on_overlap(SpriteKind.Immune, SpriteKind.coin, on_on_overlap13)
 
 def Variables():
     global Truefalse, Tid, TextCheck, ScatterCheck, coinsnumber, SuperCheck
@@ -177,9 +177,9 @@ shooty: Sprite = None
 Time = 0
 Tid = 0
 ScatterCheck = 0
-coinsnumber = 0
 SuperCheck = 0
 KeyDungeon: Sprite = None
+coinsnumber = 0
 TextCheck = 0
 Truefalse = 0
 coins: Sprite = None
@@ -211,23 +211,23 @@ Character = sprites.create(img("""
     """),
     SpriteKind.player)
 phase = sprites.create(img("""
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . . . . . . . . .
-    . . . . . . . . b . . . . . . .
-    . . . . . . . b d b . . . . . .
-    . . . . . . . c d c . . . . . .
-    . . . . . . . c 5 c . . . . . .
-    . . . . . . c d 5 d c . . . . .
-    . . . b c c d 5 5 5 d c c b . .
-    . . b d d 5 5 5 5 5 5 5 d d b .
-    . . . b c c d 5 5 5 d c c b . .
-    . . . . . . c d 5 d c . . . . .
-    . . . . . . . c 5 c . . . . . .
-    . . . . . . . c d c . . . . . .
-    . . . . . . . b d b . . . . . .
-    . . . . . . . . b . . . . . . .
-    . . . . . . . . . . . . . . . .
-"""),
+        . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . b . . . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . c d c . . . . . . 
+            . . . . . . . c 5 c . . . . . . 
+            . . . . . . c d 5 d c . . . . . 
+            . . . b c c d 5 5 5 d c c b . . 
+            . . b d d 5 5 5 5 5 5 5 d d b . 
+            . . . b c c d 5 5 5 d c c b . . 
+            . . . . . . c d 5 d c . . . . . 
+            . . . . . . . c 5 c . . . . . . 
+            . . . . . . . c d c . . . . . . 
+            . . . . . . . b d b . . . . . . 
+            . . . . . . . . b . . . . . . . 
+            . . . . . . . . . . . . . . . .
+    """),
     SpriteKind.trough)
 Scatter = sprites.create(assets.image("""
     Scatter

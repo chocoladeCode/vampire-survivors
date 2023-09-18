@@ -146,8 +146,8 @@ function Variables () {
     coinsnumber = 0
     SuperCheck = 0
 }
-let myEnemy: Sprite = null
 let Whip: Sprite = null
+let myEnemy: Sprite = null
 let shooty: Sprite = null
 let Time = 0
 let Tid = 0
@@ -230,6 +230,9 @@ for (let index = 0; index < 5; index++) {
     coins.setPosition(randint(0, 600), randint(0, 600))
 }
 game.onUpdate(function () {
+    controller.moveSprite(Character)
+})
+game.onUpdate(function () {
     if (Truefalse == 1 && Time < 0) {
         if (SuperCheck == 0) {
             sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -253,11 +256,195 @@ game.onUpdate(function () {
         }
     }
 })
-game.onUpdate(function () {
-    controller.moveSprite(Character)
-})
 game.onUpdateInterval(1000, function () {
     shooty = sprites.createProjectileFromSprite(assets.image`throwing knife 2`, Character, 90, 0)
+})
+forever(function () {
+    if (info.score() > 30) {
+        pause(1000)
+        shooty = sprites.createProjectileFromSprite(assets.image`trowing knife 1`, Character, -90, 0)
+    }
+})
+forever(function () {
+    pause(1000)
+    Time += -1
+    Tid = Math.constrain(Tid, 0, 999)
+})
+forever(function () {
+    if (info.score() < 30) {
+        pause(5000)
+        myEnemy = sprites.create(img`
+            ........................
+            ........................
+            ........................
+            ........................
+            ..........ffff..........
+            ........ff1111ff........
+            .......fb111111bf.......
+            .......f11111111f.......
+            ......fd11111111df......
+            ......fd11111111df......
+            ......fddd1111dddf......
+            ......fbdbfddfbdbf......
+            ......fcdcf11fcdcf......
+            .......fb111111bf.......
+            ......fffcdb1bdffff.....
+            ....fc111cbfbfc111cf....
+            ....f1b1b1ffff1b1b1f....
+            ....fbfbffffffbfbfbf....
+            .........ffffff.........
+            ...........fff..........
+            ........................
+            ........................
+            ........................
+            ........................
+            `, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Ghostani`,
+        100,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.castle.tileGrass2)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (info.score() > 30) {
+        pause(2000)
+        myEnemy = sprites.create(img`
+            ........................
+            ........................
+            ........................
+            ........................
+            ..........ffff..........
+            ........ff1111ff........
+            .......fb111111bf.......
+            .......f11111111f.......
+            ......fd11111111df......
+            ......fd11111111df......
+            ......fddd1111dddf......
+            ......fbdbfddfbdbf......
+            ......fcdcf11fcdcf......
+            .......fb111111bf.......
+            ......fffcdb1bdffff.....
+            ....fc111cbfbfc111cf....
+            ....f1b1b1ffff1b1b1f....
+            ....fbfbffffffbfbfbf....
+            .........ffffff.........
+            ...........fff..........
+            ........................
+            ........................
+            ........................
+            ........................
+            `, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Ghostani`,
+        100,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.castle.tileGrass2)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (info.score() < 30) {
+        pause(5000)
+        myEnemy = sprites.create(img`
+            . . f f f . . . . . . . . . . . 
+            f f f c c . . . . . . . . f f f 
+            f f c c c . c c . . . f c b b c 
+            f f c 3 c c 3 c c f f b b b c . 
+            f f c 3 b c 3 b c f b b c c c . 
+            f c b b b b b b c f b c b c c . 
+            c c 1 b b b 1 b c b b c b b c . 
+            c b b b b b b b b b c c c b c . 
+            c b 1 f f 1 c b b c c c c c . . 
+            c f 1 f f 1 f b b b b f c . . . 
+            f f f f f f f b b b b f c . . . 
+            f f 2 2 2 2 f b b b b f c c . . 
+            . f 2 2 2 2 2 b b b c f . . . . 
+            . . f 2 2 2 b b b c f . . . . . 
+            . . . f f f f f f f . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Batani`,
+        100,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.dungeon.darkGroundCenter)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (info.score() < 30) {
+        pause(5000)
+        myEnemy = sprites.create(assets.image`Dragen`, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Dragenani`,
+        200,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.builtin.brick)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (info.score() > 30) {
+        pause(2000)
+        myEnemy = sprites.create(img`
+            . . f f f . . . . . . . . . . . 
+            f f f c c . . . . . . . . f f f 
+            f f c c c . c c . . . f c b b c 
+            f f c 3 c c 3 c c f f b b b c . 
+            f f c 3 b c 3 b c f b b c c c . 
+            f c b b b b b b c f b c b c c . 
+            c c 1 b b b 1 b c b b c b b c . 
+            c b b b b b b b b b c c c b c . 
+            c b 1 f f 1 c b b c c c c c . . 
+            c f 1 f f 1 f b b b b f c . . . 
+            f f f f f f f b b b b f c . . . 
+            f f 2 2 2 2 f b b b b f c c . . 
+            . f 2 2 2 2 2 b b b c f . . . . 
+            . . f 2 2 2 b b b c f . . . . . 
+            . . . f f f f f f f . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Batani`,
+        100,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.dungeon.darkGroundCenter)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (info.score() > 30) {
+        pause(2000)
+        myEnemy = sprites.create(assets.image`Dragen`, SpriteKind.Enemy)
+        animation.runImageAnimation(
+        myEnemy,
+        assets.animation`Dragenani`,
+        200,
+        true
+        )
+        tiles.placeOnRandomTile(myEnemy, sprites.builtin.brick)
+        myEnemy.follow(Character, 35)
+    }
+})
+forever(function () {
+    if (ScatterCheck == 1) {
+        pause(2000)
+        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, -50, -300)
+        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, 0, -300)
+        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, 50, -300)
+    }
 })
 forever(function () {
     if (coinsnumber == 5) {
@@ -584,192 +771,5 @@ forever(function () {
         )
         tiles.placeOnRandomTile(myEnemy, sprites.builtin.brick)
         myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() > 30) {
-        pause(1000)
-        shooty = sprites.createProjectileFromSprite(assets.image`trowing knife 1`, Character, -90, 0)
-    }
-})
-forever(function () {
-    pause(1000)
-    Time += -1
-    Tid = Math.constrain(Tid, 0, 999)
-})
-forever(function () {
-    if (info.score() < 30) {
-        pause(5000)
-        myEnemy = sprites.create(img`
-            ........................
-            ........................
-            ........................
-            ........................
-            ..........ffff..........
-            ........ff1111ff........
-            .......fb111111bf.......
-            .......f11111111f.......
-            ......fd11111111df......
-            ......fd11111111df......
-            ......fddd1111dddf......
-            ......fbdbfddfbdbf......
-            ......fcdcf11fcdcf......
-            .......fb111111bf.......
-            ......fffcdb1bdffff.....
-            ....fc111cbfbfc111cf....
-            ....f1b1b1ffff1b1b1f....
-            ....fbfbffffffbfbfbf....
-            .........ffffff.........
-            ...........fff..........
-            ........................
-            ........................
-            ........................
-            ........................
-            `, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Ghostani`,
-        100,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.castle.tileGrass2)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() > 30) {
-        pause(2000)
-        myEnemy = sprites.create(img`
-            ........................
-            ........................
-            ........................
-            ........................
-            ..........ffff..........
-            ........ff1111ff........
-            .......fb111111bf.......
-            .......f11111111f.......
-            ......fd11111111df......
-            ......fd11111111df......
-            ......fddd1111dddf......
-            ......fbdbfddfbdbf......
-            ......fcdcf11fcdcf......
-            .......fb111111bf.......
-            ......fffcdb1bdffff.....
-            ....fc111cbfbfc111cf....
-            ....f1b1b1ffff1b1b1f....
-            ....fbfbffffffbfbfbf....
-            .........ffffff.........
-            ...........fff..........
-            ........................
-            ........................
-            ........................
-            ........................
-            `, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Ghostani`,
-        100,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.castle.tileGrass2)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() < 30) {
-        pause(5000)
-        myEnemy = sprites.create(img`
-            . . f f f . . . . . . . . . . . 
-            f f f c c . . . . . . . . f f f 
-            f f c c c . c c . . . f c b b c 
-            f f c 3 c c 3 c c f f b b b c . 
-            f f c 3 b c 3 b c f b b c c c . 
-            f c b b b b b b c f b c b c c . 
-            c c 1 b b b 1 b c b b c b b c . 
-            c b b b b b b b b b c c c b c . 
-            c b 1 f f 1 c b b c c c c c . . 
-            c f 1 f f 1 f b b b b f c . . . 
-            f f f f f f f b b b b f c . . . 
-            f f 2 2 2 2 f b b b b f c c . . 
-            . f 2 2 2 2 2 b b b c f . . . . 
-            . . f 2 2 2 b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Batani`,
-        100,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.dungeon.darkGroundCenter)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() < 30) {
-        pause(5000)
-        myEnemy = sprites.create(assets.image`Dragen`, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Dragenani`,
-        200,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.builtin.brick)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() > 30) {
-        pause(2000)
-        myEnemy = sprites.create(img`
-            . . f f f . . . . . . . . . . . 
-            f f f c c . . . . . . . . f f f 
-            f f c c c . c c . . . f c b b c 
-            f f c 3 c c 3 c c f f b b b c . 
-            f f c 3 b c 3 b c f b b c c c . 
-            f c b b b b b b c f b c b c c . 
-            c c 1 b b b 1 b c b b c b b c . 
-            c b b b b b b b b b c c c b c . 
-            c b 1 f f 1 c b b c c c c c . . 
-            c f 1 f f 1 f b b b b f c . . . 
-            f f f f f f f b b b b f c . . . 
-            f f 2 2 2 2 f b b b b f c c . . 
-            . f 2 2 2 2 2 b b b c f . . . . 
-            . . f 2 2 2 b b b c f . . . . . 
-            . . . f f f f f f f . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Batani`,
-        100,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.dungeon.darkGroundCenter)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (info.score() > 30) {
-        pause(2000)
-        myEnemy = sprites.create(assets.image`Dragen`, SpriteKind.Enemy)
-        animation.runImageAnimation(
-        myEnemy,
-        assets.animation`Dragenani`,
-        200,
-        true
-        )
-        tiles.placeOnRandomTile(myEnemy, sprites.builtin.brick)
-        myEnemy.follow(Character, 35)
-    }
-})
-forever(function () {
-    if (ScatterCheck == 1) {
-        pause(2000)
-        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, -50, -300)
-        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, 0, -300)
-        shooty = sprites.createProjectileFromSprite(assets.image`Scatter2`, Character, 50, -300)
     }
 })
