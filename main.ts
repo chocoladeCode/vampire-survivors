@@ -19,6 +19,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.trough, function (sprite, otherS
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite6, otherSprite6) {
     sprites.destroy(otherSprite6, effects.confetti, 500)
     coinsnumber += 1
+    music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite5, otherSprite5) {
     info.changeScoreBy(1)
@@ -62,10 +63,12 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.SuperEnemy, function (sprite
 info.onScore(60, function () {
     game.showLongText("Level hard", DialogLayout.Center)
     Character.setPosition(450, 450)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
 })
 info.onScore(30, function () {
     game.showLongText("Level medium", DialogLayout.Center)
     Character.setPosition(450, 450)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.SuperShield, SpriteKind.Enemy, function (sprite22, otherSprite22) {
     sprites.destroy(otherSprite22, effects.disintegrate, 500)
@@ -114,6 +117,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.DungeonKey, function (sprite4, o
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Scatterani, function (sprite8, otherSprite8) {
     sprites.destroy(otherSprite8)
+    music.play(music.melodyPlayable(music.beamUp), music.PlaybackMode.UntilDone)
     ScatterCheck = 1
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.SuperEnemy, function (sprite7, otherSprite7) {
@@ -126,10 +130,12 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite32, other
 })
 info.onScore(50, function () {
     game.splash("Whip Unlocked")
+    music.play(music.melodyPlayable(music.beamUp), music.PlaybackMode.UntilDone)
 })
 info.onScore(200, function () {
     game.showLongText("Level Insane!", DialogLayout.Center)
     Character.setPosition(450, 450)
+    music.play(music.melodyPlayable(music.powerUp), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Immune, SpriteKind.Enemy, function (sprite23, otherSprite23) {
     sprites.destroy(otherSprite23)
@@ -137,6 +143,7 @@ sprites.onOverlap(SpriteKind.Immune, SpriteKind.Enemy, function (sprite23, other
 info.onScore(40, function () {
     game.splash("Bullet Phase Unlocked")
     pause(5000)
+    music.play(music.melodyPlayable(music.beamUp), music.PlaybackMode.UntilDone)
 })
 function Variables () {
     Truefalse = 0
@@ -145,11 +152,13 @@ function Variables () {
     ScatterCheck = 0
     coinsnumber = 0
     SuperCheck = 0
+    Whip_change = 0
 }
 let Whip: Sprite = null
 let myEnemy: Sprite = null
 let shooty: Sprite = null
 let Time = 0
+let Whip_change = 0
 let Tid = 0
 let ScatterCheck = 0
 let SuperCheck = 0
@@ -229,6 +238,7 @@ for (let index = 0; index < 5; index++) {
     coins = sprites.create(assets.image`coin`, SpriteKind.coin)
     coins.setPosition(randint(0, 600), randint(0, 600))
 }
+game.setGameOverPlayable(false, music.melodyPlayable(music.wawawawaa), false)
 game.onUpdate(function () {
     controller.moveSprite(Character)
 })
@@ -250,7 +260,7 @@ game.onUpdate(function () {
             200,
             true
             )
-            Character.setPosition(450, 450)
+            Character.setPosition(31, 269)
             scene.cameraFollowSprite(Character)
             info.startCountdown(20)
         }

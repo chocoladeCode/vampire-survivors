@@ -134,6 +134,25 @@ namespace myTiles {
 .....2........................................2222
 .....2........................................2222
 `, [myTiles.transparency16,sprites.castle.tileGrass2,sprites.dungeon.darkGroundWest,sprites.dungeon.darkGroundSouth,sprites.dungeon.darkGroundSouthWest0,sprites.dungeon.darkGroundNorthWest0,sprites.dungeon.darkGroundNorth,sprites.dungeon.darkGroundCenter,sprites.castle.tilePath5,sprites.castle.tilePath8,sprites.castle.tilePath6,sprites.castle.tilePath9,sprites.castle.tileGrass1,sprites.castle.tileDarkGrass2,sprites.castle.tileDarkGrass3,sprites.builtin.forestTiles0,sprites.builtin.forestTiles11,sprites.builtin.forestTiles6,sprites.builtin.forestTiles10,sprites.builtin.forestTiles7,sprites.builtin.forestTiles5,sprites.builtin.forestTiles9,sprites.dungeon.floorLight0,sprites.dungeon.floorLightMoss,sprites.dungeon.floorLight5,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenInnerNorthEast,sprites.builtin.brick,sprites.castle.rock0,sprites.castle.rock1,sprites.dungeon.hazardLava1,sprites.dungeon.hazardLava0,sprites.vehicle.roadVertical,sprites.vehicle.roadHorizontal,sprites.vehicle.roadTurn4,sprites.vehicle.roadTurn2,sprites.vehicle.roadTurn1,sprites.vehicle.roadIntersection1,sprites.dungeon.doorClosedWest,sprites.dungeon.doorOpenNorth,sprites.dungeon.doorLockedNorth,sprites.swamp.swampTile16,sprites.dungeon.stairWest,sprites.dungeon.doorOpenEast,sprites.dungeon.doorClosedEast,sprites.castle.tilePath7,sprites.castle.tilePath4,sprites.castle.tilePath3,sprites.castle.tilePath2,sprites.builtin.forestTiles4,sprites.castle.tilePath1,sprites.builtin.crowd2,sprites.builtin.crowd1,sprites.builtin.crowd7,sprites.builtin.crowd5,sprites.vehicle.roadTurn3,sprites.dungeon.hazardWater,sprites.skillmap.islandTile7,sprites.skillmap.islandTile8,sprites.builtin.field0,sprites.dungeon.chestOpen], TileScale.Sixteen);
+            case "level5":
+            case "level5":return tiles.createTilemap(hex`1000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`, img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, [myTiles.transparency16], TileScale.Sixteen);
         }
         return null;
     })
