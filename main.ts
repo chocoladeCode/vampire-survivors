@@ -19,7 +19,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.trough, function (sprite, otherS
 sprites.onOverlap(SpriteKind.Player, SpriteKind.coin, function (sprite6, otherSprite6) {
     sprites.destroy(otherSprite6, effects.confetti, 500)
     coinsnumber += 1
-    music.play(music.melodyPlayable(music.zapped), music.PlaybackMode.UntilDone)
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite5, otherSprite5) {
     info.changeScoreBy(1)
@@ -493,7 +493,7 @@ forever(function () {
 })
 forever(function () {
     if (info.score() > 50) {
-        pause(1000)
+        pause(2000)
         Whip = sprites.createProjectileFromSprite(assets.image`ShootDash`, Character, 0, 100)
         pause(500)
         sprites.destroy(Whip, effects.disintegrate, 500)
