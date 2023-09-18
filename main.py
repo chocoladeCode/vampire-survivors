@@ -24,6 +24,8 @@ def on_on_overlap3(sprite6, otherSprite6):
     global coinsnumber
     sprites.destroy(otherSprite6, effects.confetti, 500)
     coinsnumber += 1
+    music.play(music.melody_playable(music.zapped),
+        music.PlaybackMode.UNTIL_DONE)
 sprites.on_overlap(SpriteKind.player, SpriteKind.coin, on_on_overlap3)
 
 def on_on_overlap4(sprite5, otherSprite5):
@@ -72,11 +74,15 @@ sprites.on_overlap(SpriteKind.projectile, SpriteKind.SuperEnemy, on_on_overlap6)
 def on_on_score():
     game.show_long_text("Level hard", DialogLayout.CENTER)
     Character.set_position(450, 450)
+    music.play(music.melody_playable(music.power_up),
+        music.PlaybackMode.UNTIL_DONE)
 info.on_score(60, on_on_score)
 
 def on_on_score2():
     game.show_long_text("Level medium", DialogLayout.CENTER)
     Character.set_position(450, 450)
+    music.play(music.melody_playable(music.power_up),
+        music.PlaybackMode.UNTIL_DONE)
 info.on_score(30, on_on_score2)
 
 def on_on_overlap7(sprite22, otherSprite22):
@@ -131,6 +137,8 @@ sprites.on_overlap(SpriteKind.player, SpriteKind.DungeonKey, on_on_overlap9)
 def on_on_overlap10(sprite8, otherSprite8):
     global ScatterCheck
     sprites.destroy(otherSprite8)
+    music.play(music.melody_playable(music.beam_up),
+        music.PlaybackMode.UNTIL_DONE)
     ScatterCheck = 1
 sprites.on_overlap(SpriteKind.player, SpriteKind.Scatterani, on_on_overlap10)
 
@@ -147,11 +155,15 @@ sprites.on_overlap(SpriteKind.enemy, SpriteKind.player, on_on_overlap12)
 
 def on_on_score3():
     game.splash("Whip Unlocked")
+    music.play(music.melody_playable(music.beam_up),
+        music.PlaybackMode.UNTIL_DONE)
 info.on_score(50, on_on_score3)
 
 def on_on_score4():
     game.show_long_text("Level Insane!", DialogLayout.CENTER)
     Character.set_position(450, 450)
+    music.play(music.melody_playable(music.power_up),
+        music.PlaybackMode.UNTIL_DONE)
 info.on_score(200, on_on_score4)
 
 def on_on_overlap13(sprite23, otherSprite23):
@@ -161,20 +173,24 @@ sprites.on_overlap(SpriteKind.Immune, SpriteKind.enemy, on_on_overlap13)
 def on_on_score5():
     game.splash("Bullet Phase Unlocked")
     pause(5000)
+    music.play(music.melody_playable(music.beam_up),
+        music.PlaybackMode.UNTIL_DONE)
 info.on_score(40, on_on_score5)
 
 def Variables():
-    global Truefalse, Tid, TextCheck, ScatterCheck, coinsnumber, SuperCheck
+    global Truefalse, Tid, TextCheck, ScatterCheck, coinsnumber, SuperCheck, Whip_change
     Truefalse = 0
     Tid = 0
     TextCheck = 0
     ScatterCheck = 0
     coinsnumber = 0
     SuperCheck = 0
-myEnemy: Sprite = None
+    Whip_change = 0
 Whip: Sprite = None
+myEnemy: Sprite = None
 shooty: Sprite = None
 Time = 0
+Whip_change = 0
 Tid = 0
 ScatterCheck = 0
 SuperCheck = 0
@@ -254,8 +270,13 @@ for index in range(5):
         coin
     """), SpriteKind.coin)
     coins.set_position(randint(0, 600), randint(0, 600))
+game.set_game_over_playable(False, music.melody_playable(music.wawawawaa), False)
 
 def on_on_update():
+    controller.move_sprite(Character)
+game.on_update(on_on_update)
+
+def on_on_update2():
     global Character, Time, TextCheck
     if Truefalse == 1 and Time < 0:
         if SuperCheck == 0:
@@ -276,13 +297,9 @@ def on_on_update():
                 """),
                 200,
                 True)
-            Character.set_position(450, 450)
+            Character.set_position(31, 269)
             scene.camera_follow_sprite(Character)
             info.start_countdown(20)
-game.on_update(on_on_update)
-
-def on_on_update2():
-    controller.move_sprite(Character)
 game.on_update(on_on_update2)
 
 def on_update_interval():
@@ -293,57 +310,25 @@ def on_update_interval():
 game.on_update_interval(1000, on_update_interval)
 
 def on_forever():
-    global Character, SuperCheck, coinsnumber
-    if coinsnumber == 5:
-        sprites.destroy_all_sprites_of_kind(SpriteKind.Immune)
-        sprites.destroy_all_sprites_of_kind(SpriteKind.player)
-        sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
-        Character = sprites.create(img("""
-                . . . . . . f f f f . . . . . . 
-                            . . . . f f f 2 2 f f f . . . . 
-                            . . . f f f 2 2 2 2 f f f . . . 
-                            . . f f f e e e e e e f f f . . 
-                            . . f f e 2 2 2 2 2 2 e e f . . 
-                            . . f e 2 f f f f f f 2 e f . . 
-                            . . f f f f e e e e f f f f . . 
-                            . f f e f b f 4 4 f b f e f f . 
-                            . f e e 4 1 f d d f 1 4 e e f . 
-                            . . f e e d d d d d d e e f . . 
-                            . . . f e e 4 4 4 4 e e f . . . 
-                            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
-                            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
-                            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
-                            . . . . . f f f f f f . . . . . 
-                            . . . . . f f . . f f . . . . .
-            """),
-            SpriteKind.SuperShield)
-        SuperCheck = 1
-        scene.camera_follow_sprite(Character)
-        animation.run_image_animation(Character,
-            assets.animation("""
-                SuperShieldani
-            """),
-            500,
-            True)
-        coinsnumber = 0
-        info.start_countdown(40)
+    global shooty
+    if info.score() > 30:
+        pause(1000)
+        shooty = sprites.create_projectile_from_sprite(assets.image("""
+            trowing knife 1
+        """), Character, -90, 0)
 forever(on_forever)
 
 def on_forever2():
-    global Whip
-    if info.score() > 50:
-        pause(1000)
-        Whip = sprites.create_projectile_from_sprite(assets.image("""
-            ShootDash
-        """), Character, 0, 100)
-        pause(500)
-        sprites.destroy(Whip, effects.disintegrate, 500)
+    global Time, Tid
+    pause(1000)
+    Time += -1
+    Tid = Math.constrain(Tid, 0, 999)
 forever(on_forever2)
 
 def on_forever3():
     global myEnemy
-    if info.score() > 60:
-        pause(2000)
+    if info.score() < 30:
+        pause(5000)
         myEnemy = sprites.create(img("""
                 ........................
                             ........................
@@ -379,6 +364,233 @@ def on_forever3():
 forever(on_forever3)
 
 def on_forever4():
+    global myEnemy
+    if info.score() > 30:
+        pause(2000)
+        myEnemy = sprites.create(img("""
+                ........................
+                            ........................
+                            ........................
+                            ........................
+                            ..........ffff..........
+                            ........ff1111ff........
+                            .......fb111111bf.......
+                            .......f11111111f.......
+                            ......fd11111111df......
+                            ......fd11111111df......
+                            ......fddd1111dddf......
+                            ......fbdbfddfbdbf......
+                            ......fcdcf11fcdcf......
+                            .......fb111111bf.......
+                            ......fffcdb1bdffff.....
+                            ....fc111cbfbfc111cf....
+                            ....f1b1b1ffff1b1b1f....
+                            ....fbfbffffffbfbfbf....
+                            .........ffffff.........
+                            ...........fff..........
+                            ........................
+                            ........................
+                            ........................
+                            ........................
+            """),
+            SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Ghostani
+        """), 100, True)
+        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
+        myEnemy.follow(Character, 35)
+forever(on_forever4)
+
+def on_forever5():
+    global myEnemy
+    if info.score() < 30:
+        pause(5000)
+        myEnemy = sprites.create(img("""
+                . . f f f . . . . . . . . . . . 
+                            f f f c c . . . . . . . . f f f 
+                            f f c c c . c c . . . f c b b c 
+                            f f c 3 c c 3 c c f f b b b c . 
+                            f f c 3 b c 3 b c f b b c c c . 
+                            f c b b b b b b c f b c b c c . 
+                            c c 1 b b b 1 b c b b c b b c . 
+                            c b b b b b b b b b c c c b c . 
+                            c b 1 f f 1 c b b c c c c c . . 
+                            c f 1 f f 1 f b b b b f c . . . 
+                            f f f f f f f b b b b f c . . . 
+                            f f 2 2 2 2 f b b b b f c c . . 
+                            . f 2 2 2 2 2 b b b c f . . . . 
+                            . . f 2 2 2 b b b c f . . . . . 
+                            . . . f f f f f f f . . . . . . 
+                            . . . . . . . . . . . . . . . .
+            """),
+            SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Batani
+        """), 100, True)
+        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
+        myEnemy.follow(Character, 35)
+forever(on_forever5)
+
+def on_forever6():
+    global myEnemy
+    if info.score() < 30:
+        pause(5000)
+        myEnemy = sprites.create(assets.image("""
+            Dragen
+        """), SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Dragenani
+        """), 200, True)
+        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
+        myEnemy.follow(Character, 35)
+forever(on_forever6)
+
+def on_forever7():
+    global myEnemy
+    if info.score() > 30:
+        pause(2000)
+        myEnemy = sprites.create(img("""
+                . . f f f . . . . . . . . . . . 
+                            f f f c c . . . . . . . . f f f 
+                            f f c c c . c c . . . f c b b c 
+                            f f c 3 c c 3 c c f f b b b c . 
+                            f f c 3 b c 3 b c f b b c c c . 
+                            f c b b b b b b c f b c b c c . 
+                            c c 1 b b b 1 b c b b c b b c . 
+                            c b b b b b b b b b c c c b c . 
+                            c b 1 f f 1 c b b c c c c c . . 
+                            c f 1 f f 1 f b b b b f c . . . 
+                            f f f f f f f b b b b f c . . . 
+                            f f 2 2 2 2 f b b b b f c c . . 
+                            . f 2 2 2 2 2 b b b c f . . . . 
+                            . . f 2 2 2 b b b c f . . . . . 
+                            . . . f f f f f f f . . . . . . 
+                            . . . . . . . . . . . . . . . .
+            """),
+            SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Batani
+        """), 100, True)
+        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
+        myEnemy.follow(Character, 35)
+forever(on_forever7)
+
+def on_forever8():
+    global myEnemy
+    if info.score() > 30:
+        pause(2000)
+        myEnemy = sprites.create(assets.image("""
+            Dragen
+        """), SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Dragenani
+        """), 200, True)
+        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
+        myEnemy.follow(Character, 35)
+forever(on_forever8)
+
+def on_forever9():
+    global shooty
+    if ScatterCheck == 1:
+        pause(2000)
+        shooty = sprites.create_projectile_from_sprite(assets.image("""
+            Scatter2
+        """), Character, -50, -300)
+        shooty = sprites.create_projectile_from_sprite(assets.image("""
+            Scatter2
+        """), Character, 0, -300)
+        shooty = sprites.create_projectile_from_sprite(assets.image("""
+            Scatter2
+        """), Character, 50, -300)
+forever(on_forever9)
+
+def on_forever10():
+    global Character, SuperCheck, coinsnumber
+    if coinsnumber == 5:
+        sprites.destroy_all_sprites_of_kind(SpriteKind.Immune)
+        sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+        sprites.destroy_all_sprites_of_kind(SpriteKind.enemy)
+        Character = sprites.create(img("""
+                . . . . . . f f f f . . . . . . 
+                            . . . . f f f 2 2 f f f . . . . 
+                            . . . f f f 2 2 2 2 f f f . . . 
+                            . . f f f e e e e e e f f f . . 
+                            . . f f e 2 2 2 2 2 2 e e f . . 
+                            . . f e 2 f f f f f f 2 e f . . 
+                            . . f f f f e e e e f f f f . . 
+                            . f f e f b f 4 4 f b f e f f . 
+                            . f e e 4 1 f d d f 1 4 e e f . 
+                            . . f e e d d d d d d e e f . . 
+                            . . . f e e 4 4 4 4 e e f . . . 
+                            . . e 4 f 2 2 2 2 2 2 f 4 e . . 
+                            . . 4 d f 2 2 2 2 2 2 f d 4 . . 
+                            . . 4 4 f 4 4 5 5 4 4 f 4 4 . . 
+                            . . . . . f f f f f f . . . . . 
+                            . . . . . f f . . f f . . . . .
+            """),
+            SpriteKind.SuperShield)
+        SuperCheck = 1
+        scene.camera_follow_sprite(Character)
+        animation.run_image_animation(Character,
+            assets.animation("""
+                SuperShieldani
+            """),
+            500,
+            True)
+        coinsnumber = 0
+        info.start_countdown(40)
+forever(on_forever10)
+
+def on_forever11():
+    global Whip
+    if info.score() > 50:
+        pause(1000)
+        Whip = sprites.create_projectile_from_sprite(assets.image("""
+            ShootDash
+        """), Character, 0, 100)
+        pause(500)
+        sprites.destroy(Whip, effects.disintegrate, 500)
+forever(on_forever11)
+
+def on_forever12():
+    global myEnemy
+    if info.score() > 60:
+        pause(2000)
+        myEnemy = sprites.create(img("""
+                ........................
+                            ........................
+                            ........................
+                            ........................
+                            ..........ffff..........
+                            ........ff1111ff........
+                            .......fb111111bf.......
+                            .......f11111111f.......
+                            ......fd11111111df......
+                            ......fd11111111df......
+                            ......fddd1111dddf......
+                            ......fbdbfddfbdbf......
+                            ......fcdcf11fcdcf......
+                            .......fb111111bf.......
+                            ......fffcdb1bdffff.....
+                            ....fc111cbfbfc111cf....
+                            ....f1b1b1ffff1b1b1f....
+                            ....fbfbffffffbfbfbf....
+                            .........ffffff.........
+                            ...........fff..........
+                            ........................
+                            ........................
+                            ........................
+                            ........................
+            """),
+            SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Ghostani
+        """), 100, True)
+        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
+        myEnemy.follow(Character, 35)
+forever(on_forever12)
+
+def on_forever13():
     global myEnemy
     if info.score() > 60:
         pause(2000)
@@ -498,273 +710,49 @@ def on_forever4():
                 """)],
             200,
             True)
-forever(on_forever4)
-
-def on_forever5():
-    global myEnemy
-    if info.score() > 200 and ScatterCheck == 1:
-        pause(2000)
-        myEnemy = sprites.create(img("""
-                ........................
-                            ........................
-                            ........................
-                            ........................
-                            ..........ffff..........
-                            ........ff1111ff........
-                            .......fb111111bf.......
-                            .......f11111111f.......
-                            ......fd11111111df......
-                            ......fd11111111df......
-                            ......fddd1111dddf......
-                            ......fbdbfddfbdbf......
-                            ......fcdcf11fcdcf......
-                            .......fb111111bf.......
-                            ......fffcdb1bdffff.....
-                            ....fc111cbfbfc111cf....
-                            ....f1b1b1ffff1b1b1f....
-                            ....fbfbffffffbfbfbf....
-                            .........ffffff.........
-                            ...........fff..........
-                            ........................
-                            ........................
-                            ........................
-                            ........................
-            """),
-            SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Ghostani
-        """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
-        myEnemy.follow(Character, 35)
-forever(on_forever5)
-
-def on_forever6():
-    global myEnemy
-    if info.score() > 60:
-        pause(2000)
-        myEnemy = sprites.create(img("""
-                . . f f f . . . . . . . . . . . 
-                            f f f c c . . . . . . . . f f f 
-                            f f c c c . c c . . . f c b b c 
-                            f f c 3 c c 3 c c f f b b b c . 
-                            f f c 3 b c 3 b c f b b c c c . 
-                            f c b b b b b b c f b c b c c . 
-                            c c 1 b b b 1 b c b b c b b c . 
-                            c b b b b b b b b b c c c b c . 
-                            c b 1 f f 1 c b b c c c c c . . 
-                            c f 1 f f 1 f b b b b f c . . . 
-                            f f f f f f f b b b b f c . . . 
-                            f f 2 2 2 2 f b b b b f c c . . 
-                            . f 2 2 2 2 2 b b b c f . . . . 
-                            . . f 2 2 2 b b b c f . . . . . 
-                            . . . f f f f f f f . . . . . . 
-                            . . . . . . . . . . . . . . . .
-            """),
-            SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Batani
-        """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
-        myEnemy.follow(Character, 35)
-forever(on_forever6)
-
-def on_forever7():
-    global myEnemy
-    if info.score() > 60:
-        pause(2000)
-        myEnemy = sprites.create(assets.image("""
-            Dragen
-        """), SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Dragenani
-        """), 200, True)
-        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
-        myEnemy.follow(Character, 35)
-forever(on_forever7)
-
-def on_forever8():
-    global myEnemy
-    if info.score() > 200 and ScatterCheck == 1:
-        pause(2000)
-        myEnemy = sprites.create(img("""
-                . . f f f . . . . . . . . . . . 
-                            f f f c c . . . . . . . . f f f 
-                            f f c c c . c c . . . f c b b c 
-                            f f c 3 c c 3 c c f f b b b c . 
-                            f f c 3 b c 3 b c f b b c c c . 
-                            f c b b b b b b c f b c b c c . 
-                            c c 1 b b b 1 b c b b c b b c . 
-                            c b b b b b b b b b c c c b c . 
-                            c b 1 f f 1 c b b c c c c c . . 
-                            c f 1 f f 1 f b b b b f c . . . 
-                            f f f f f f f b b b b f c . . . 
-                            f f 2 2 2 2 f b b b b f c c . . 
-                            . f 2 2 2 2 2 b b b c f . . . . 
-                            . . f 2 2 2 b b b c f . . . . . 
-                            . . . f f f f f f f . . . . . . 
-                            . . . . . . . . . . . . . . . .
-            """),
-            SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Batani
-        """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
-        myEnemy.follow(Character, 35)
-forever(on_forever8)
-
-def on_forever9():
-    global myEnemy
-    if info.score() > 200 and ScatterCheck == 1:
-        pause(2000)
-        myEnemy = sprites.create(assets.image("""
-            Dragen
-        """), SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Dragenani
-        """), 200, True)
-        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
-        myEnemy.follow(Character, 35)
-forever(on_forever9)
-
-def on_forever10():
-    global shooty
-    if info.score() > 30:
-        pause(1000)
-        shooty = sprites.create_projectile_from_sprite(assets.image("""
-            trowing knife 1
-        """), Character, -90, 0)
-forever(on_forever10)
-
-def on_forever11():
-    global Time, Tid
-    pause(1000)
-    Time += -1
-    Tid = Math.constrain(Tid, 0, 999)
-forever(on_forever11)
-
-def on_forever12():
-    global myEnemy
-    if info.score() < 30:
-        pause(5000)
-        myEnemy = sprites.create(img("""
-                ........................
-                            ........................
-                            ........................
-                            ........................
-                            ..........ffff..........
-                            ........ff1111ff........
-                            .......fb111111bf.......
-                            .......f11111111f.......
-                            ......fd11111111df......
-                            ......fd11111111df......
-                            ......fddd1111dddf......
-                            ......fbdbfddfbdbf......
-                            ......fcdcf11fcdcf......
-                            .......fb111111bf.......
-                            ......fffcdb1bdffff.....
-                            ....fc111cbfbfc111cf....
-                            ....f1b1b1ffff1b1b1f....
-                            ....fbfbffffffbfbfbf....
-                            .........ffffff.........
-                            ...........fff..........
-                            ........................
-                            ........................
-                            ........................
-                            ........................
-            """),
-            SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Ghostani
-        """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
-        myEnemy.follow(Character, 35)
-forever(on_forever12)
-
-def on_forever13():
-    global myEnemy
-    if info.score() > 30:
-        pause(2000)
-        myEnemy = sprites.create(img("""
-                ........................
-                            ........................
-                            ........................
-                            ........................
-                            ..........ffff..........
-                            ........ff1111ff........
-                            .......fb111111bf.......
-                            .......f11111111f.......
-                            ......fd11111111df......
-                            ......fd11111111df......
-                            ......fddd1111dddf......
-                            ......fbdbfddfbdbf......
-                            ......fcdcf11fcdcf......
-                            .......fb111111bf.......
-                            ......fffcdb1bdffff.....
-                            ....fc111cbfbfc111cf....
-                            ....f1b1b1ffff1b1b1f....
-                            ....fbfbffffffbfbfbf....
-                            .........ffffff.........
-                            ...........fff..........
-                            ........................
-                            ........................
-                            ........................
-                            ........................
-            """),
-            SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Ghostani
-        """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
-        myEnemy.follow(Character, 35)
 forever(on_forever13)
 
 def on_forever14():
     global myEnemy
-    if info.score() < 30:
-        pause(5000)
+    if info.score() > 200 and ScatterCheck == 1:
+        pause(2000)
         myEnemy = sprites.create(img("""
-                . . f f f . . . . . . . . . . . 
-                            f f f c c . . . . . . . . f f f 
-                            f f c c c . c c . . . f c b b c 
-                            f f c 3 c c 3 c c f f b b b c . 
-                            f f c 3 b c 3 b c f b b c c c . 
-                            f c b b b b b b c f b c b c c . 
-                            c c 1 b b b 1 b c b b c b b c . 
-                            c b b b b b b b b b c c c b c . 
-                            c b 1 f f 1 c b b c c c c c . . 
-                            c f 1 f f 1 f b b b b f c . . . 
-                            f f f f f f f b b b b f c . . . 
-                            f f 2 2 2 2 f b b b b f c c . . 
-                            . f 2 2 2 2 2 b b b c f . . . . 
-                            . . f 2 2 2 b b b c f . . . . . 
-                            . . . f f f f f f f . . . . . . 
-                            . . . . . . . . . . . . . . . .
+                ........................
+                            ........................
+                            ........................
+                            ........................
+                            ..........ffff..........
+                            ........ff1111ff........
+                            .......fb111111bf.......
+                            .......f11111111f.......
+                            ......fd11111111df......
+                            ......fd11111111df......
+                            ......fddd1111dddf......
+                            ......fbdbfddfbdbf......
+                            ......fcdcf11fcdcf......
+                            .......fb111111bf.......
+                            ......fffcdb1bdffff.....
+                            ....fc111cbfbfc111cf....
+                            ....f1b1b1ffff1b1b1f....
+                            ....fbfbffffffbfbfbf....
+                            .........ffffff.........
+                            ...........fff..........
+                            ........................
+                            ........................
+                            ........................
+                            ........................
             """),
             SpriteKind.enemy)
         animation.run_image_animation(myEnemy, assets.animation("""
-            Batani
+            Ghostani
         """), 100, True)
-        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
+        tiles.place_on_random_tile(myEnemy, sprites.castle.tile_grass2)
         myEnemy.follow(Character, 35)
 forever(on_forever14)
 
 def on_forever15():
     global myEnemy
-    if info.score() < 30:
-        pause(5000)
-        myEnemy = sprites.create(assets.image("""
-            Dragen
-        """), SpriteKind.enemy)
-        animation.run_image_animation(myEnemy, assets.animation("""
-            Dragenani
-        """), 200, True)
-        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
-        myEnemy.follow(Character, 35)
-forever(on_forever15)
-
-def on_forever16():
-    global myEnemy
-    if info.score() > 30:
+    if info.score() > 60:
         pause(2000)
         myEnemy = sprites.create(img("""
                 . . f f f . . . . . . . . . . . 
@@ -790,11 +778,11 @@ def on_forever16():
         """), 100, True)
         tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
         myEnemy.follow(Character, 35)
-forever(on_forever16)
+forever(on_forever15)
 
-def on_forever17():
+def on_forever16():
     global myEnemy
-    if info.score() > 30:
+    if info.score() > 60:
         pause(2000)
         myEnemy = sprites.create(assets.image("""
             Dragen
@@ -804,19 +792,48 @@ def on_forever17():
         """), 200, True)
         tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
         myEnemy.follow(Character, 35)
+forever(on_forever16)
+
+def on_forever17():
+    global myEnemy
+    if info.score() > 200 and ScatterCheck == 1:
+        pause(2000)
+        myEnemy = sprites.create(img("""
+                . . f f f . . . . . . . . . . . 
+                            f f f c c . . . . . . . . f f f 
+                            f f c c c . c c . . . f c b b c 
+                            f f c 3 c c 3 c c f f b b b c . 
+                            f f c 3 b c 3 b c f b b c c c . 
+                            f c b b b b b b c f b c b c c . 
+                            c c 1 b b b 1 b c b b c b b c . 
+                            c b b b b b b b b b c c c b c . 
+                            c b 1 f f 1 c b b c c c c c . . 
+                            c f 1 f f 1 f b b b b f c . . . 
+                            f f f f f f f b b b b f c . . . 
+                            f f 2 2 2 2 f b b b b f c c . . 
+                            . f 2 2 2 2 2 b b b c f . . . . 
+                            . . f 2 2 2 b b b c f . . . . . 
+                            . . . f f f f f f f . . . . . . 
+                            . . . . . . . . . . . . . . . .
+            """),
+            SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Batani
+        """), 100, True)
+        tiles.place_on_random_tile(myEnemy, sprites.dungeon.dark_ground_center)
+        myEnemy.follow(Character, 35)
 forever(on_forever17)
 
 def on_forever18():
-    global shooty
-    if ScatterCheck == 1:
+    global myEnemy
+    if info.score() > 200 and ScatterCheck == 1:
         pause(2000)
-        shooty = sprites.create_projectile_from_sprite(assets.image("""
-            Scatter2
-        """), Character, -50, -300)
-        shooty = sprites.create_projectile_from_sprite(assets.image("""
-            Scatter2
-        """), Character, 0, -300)
-        shooty = sprites.create_projectile_from_sprite(assets.image("""
-            Scatter2
-        """), Character, 50, -300)
+        myEnemy = sprites.create(assets.image("""
+            Dragen
+        """), SpriteKind.enemy)
+        animation.run_image_animation(myEnemy, assets.animation("""
+            Dragenani
+        """), 200, True)
+        tiles.place_on_random_tile(myEnemy, sprites.builtin.brick)
+        myEnemy.follow(Character, 35)
 forever(on_forever18)
